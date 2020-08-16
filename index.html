@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Temperature Hot</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url(images/bg-image.jpg) no-repeat;
+            background-size: cover;
+            height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <form class="col-md-6 m-auto py-5">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" id="getCity" placeholder="Enter a location for Weather ...">
+                <div class="input-group-append">
+                    <button type="button" onclick="getWeather()"  class="btn btn-danger">Search</button>
+                </div>
+            </div>
+        </form>
+        <div class="weather-status text-white text-center">
+            <div id="icon">
+                <!-- <img  src="https://openweathermap.org/img/wn/02d@2x.png" alt=""> -->
+            </div>
+            
+            <h1 id="city"></h1>
+            <h3><span  id="temp"></span>&deg; C / <span id="fer"></span>&deg; F</h3>
+            <h1 id="weather" class="lead"></h1>
+        </div>
+    </div>
+
+</body>
+<script>
+    function getWeather(){
+        const getCity=document.getElementById("getCity").value;
+        console.log(getCity);
+     fetch(`https://api.openweathermap.org/data/2.5/weather?q=${getCity}&appid=d82ff19c54d2ba661cb659c34354b788`)
+        .then(res=>res.json())
+        .then(data=>{
+            console.log(data);
+           document.getElementById("city").innerText=data.name;
+           const temp=data.main.temp;
+           const celcius=temp-273;
+           const maintemp=Math.round(celcius);
+           document.getElementById("temp").innerText=maintemp;
+           document.getElementById("fer").innerText=Math.round(temp);
+           const weather=data.weather[0].main;
+           document.getElementById("weather").innerText=weather;
+           if(weather=="Clouds"){
+            document.body.style.background="url('images/cloud.jpg')";
+           }
+           else if(weather=="Rain"){
+            document.body.style.background="url('images/rain.jpg')";
+           }
+           else if(weather=="Haze"){
+            document.body.style.background="url('images/haze.jpg')";
+           }
+           const icon = ("<img src='https://openweathermap.org/img/wn/" + data.weather[0].icon + "@2x.png'>");
+           document.getElementById("icon").innerHTML=icon;
+           
+           
+        })
+    }
+</script>
+</html>
