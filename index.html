@@ -65,6 +65,9 @@
            else if(weather=="Haze"){
             document.body.style.background="url('images/haze.jpg')";
            }
+           else{
+            document.body.style.background="url('images/bg-image.jpg')";
+           }
            const icon = ("<img src='https://openweathermap.org/img/wn/" + data.weather[0].icon + "@2x.png'>");
            document.getElementById("icon").innerHTML=icon;
            
